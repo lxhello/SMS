@@ -9,6 +9,7 @@ def login():
         return flag
 
 
+# enu
 def menu():
     print("=" * 30)
     print("1.add student information")
