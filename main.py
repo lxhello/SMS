@@ -47,6 +47,22 @@ def delete_student_info(all_student):
     print("student {} delete success".format(stu_key_word))
 
 
+def modify_student_info(all_student):
+    key_word = input("please enter name or stu_id to modify:")
+    stu = fine_stu(all_student,key_word)
+    if not stu:
+        print("{} is not exist".format(key_word))
+        return
+    choice = int(input("please select the content to modify\n1.stu_id;\n2.name;\n3.age:"))
+    modify_key_word = input("please enter information:")
+    if choice == 1:
+        stu.stu_id = modify_key_word
+    elif choice == 2:
+        stu.name = modify_key_word
+    elif choice == 3:
+        stu.age = modify_key_word
+
+
 def query_student_info(all_student,fuzzy_key_word):
     stu = fine_stu(all_student,fuzzy_key_word)
     if not stu:
@@ -66,7 +82,7 @@ def main():
         elif choice == 2:
             delete_student_info(all_student)
         elif choice == 3:
-            print("modify student information")
+            modify_student_info(all_student)
         elif choice == 4:
             key_word = input("please enter name or stu_id to find:")
             query_student_info(all_student,key_word)
