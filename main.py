@@ -1,13 +1,21 @@
 from student_class import Student
 
 
-def save_info(address,user_name,user_passwd):
-    file = open("./{}.txt".format(address),'w')
-    file.write("username is ")
+def save_info(address, user_name, user_passwd):
+    file = open("./{}.txt".format(address), 'w')
     file.write(user_name)
-    file.write(";password is ")
+    file.write('-')
     file.write(user_passwd)
     file.close()
+
+
+def read_file(address):
+    file = open(address, 'r')
+    file_content = file.readline()
+    user_info = file_content.split('-')
+    username = user_info[0]
+    password = user_info[1]
+    return username, password
 
 
 def sign_up():
@@ -15,13 +23,18 @@ def sign_up():
     password = input("please enter password to sign:")
     confirm = input("are you sure you want to register,y/n:")
     if confirm == 'y' or confirm == 'Y':
-        save_info("user_info",username,password)
+        save_info("user_info", username, password)
 
 
+# denglu
 def sign_in():
-    username = input("please enter username:")
-    password = input("please enter password:")
-    if username == "123456" and password == "123456":
+    username, password = read_file("./user_info.txt")
+    user_name = input("please enter username:")
+    pass_word = input("please enter password:")
+    if user_name != username or pass_word != password:
+        print("username or password is not right,please enter again")
+        return False
+    elif user_name == username and pass_word == password:
         flag = True
         return flag
 
@@ -29,6 +42,7 @@ def sign_in():
 # menu
 def menu():
     print("=" * 30)
+    print("press 0 key for quit")
     print("1.add student information")
     print("2.delete student information")
     print("3.modify student information")
@@ -48,7 +62,7 @@ def add_student_info(all_student):
     all_student.append(stu)
 
 
-def fine_stu(all_student,fuzzy_key_word):
+def fine_stu(all_student, fuzzy_key_word):
     for stu in all_student:
         if (stu.stu_id == fuzzy_key_word) or (stu.name == fuzzy_key_word):
             return stu
@@ -56,7 +70,7 @@ def fine_stu(all_student,fuzzy_key_word):
 
 def delete_student_info(all_student):
     stu_key_word = input("please enter student name or stu_id to delete:")
-    stu = fine_stu(all_student,stu_key_word)
+    stu = fine_stu(all_student, stu_key_word)
     if not stu:
         print("{} is not exist".format(stu_key_word))
         exit()
@@ -66,7 +80,7 @@ def delete_student_info(all_student):
 
 def modify_student_info(all_student):
     key_word = input("please enter name or stu_id to modify:")
-    stu = fine_stu(all_student,key_word)
+    stu = fine_stu(all_student, key_word)
     if not stu:
         print("{} is not exist".format(key_word))
         return
@@ -80,8 +94,8 @@ def modify_student_info(all_student):
         stu.age = modify_key_word
 
 
-def query_student_info(all_student,fuzzy_key_word):
-    stu = fine_stu(all_student,fuzzy_key_word)
+def query_student_info(all_student, fuzzy_key_word):
+    stu = fine_stu(all_student, fuzzy_key_word)
     if not stu:
         print("{} is not exist".format(fuzzy_key_word))
         return
@@ -89,12 +103,12 @@ def query_student_info(all_student,fuzzy_key_word):
 
 
 def main():
-    sign_up()
     flag = sign_in()
-    choice = menu()
     all_student = []
+    while not flag:
+        flag = sign_in()
+    choice = menu()
     while flag and choice:
-        print("welcome to system")
         if choice == 1:
             add_student_info(all_student)
         elif choice == 2:
@@ -103,9 +117,10 @@ def main():
             modify_student_info(all_student)
         elif choice == 4:
             key_word = input("please enter name or stu_id to find:")
-            query_student_info(all_student,key_word)
+            query_student_info(all_student, key_word)
         choice = menu()
 
 
 if __name__ == '__main__':
+    sign_up()
     main()
