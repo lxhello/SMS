@@ -9,7 +9,7 @@ def login():
         return flag
 
 
-# enu
+# menu
 def menu():
     print("=" * 30)
     print("1.add student information")
@@ -31,12 +31,28 @@ def add_student_info(all_student):
     all_student.append(stu)
 
 
-def query_student_info(all_student,fuzzy_key_word):
+def fine_stu(all_student,fuzzy_key_word):
     for stu in all_student:
         if (stu.stu_id == fuzzy_key_word) or (stu.name == fuzzy_key_word):
-            stu.display_stu_info()
-            return
-    return None
+            return stu
+
+
+def delete_student_info(all_student):
+    stu_key_word = input("please enter student name or stu_id to delete:")
+    stu = fine_stu(all_student,stu_key_word)
+    if not stu:
+        print("{} is not exist".format(stu_key_word))
+        exit()
+    all_student.remove(stu)
+    print("student {} delete success".format(stu_key_word))
+
+
+def query_student_info(all_student,fuzzy_key_word):
+    stu = fine_stu(all_student,fuzzy_key_word)
+    if not stu:
+        print("{} is not exist".format(fuzzy_key_word))
+        return
+    stu.display_stu_info()
 
 
 def main():
@@ -48,7 +64,7 @@ def main():
         if choice == 1:
             add_student_info(all_student)
         elif choice == 2:
-            print("delete student information")
+            delete_student_info(all_student)
         elif choice == 3:
             print("modify student information")
         elif choice == 4:
