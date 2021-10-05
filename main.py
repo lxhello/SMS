@@ -1,11 +1,11 @@
 from student_class import Student
 
 
-def save_info(address, user_name, user_passwd):
-    file = open("./{}.txt".format(address), 'w')
-    file.write(user_name)
+def save_info(*args):
+    file = open("./{}.txt".format(args[0]), 'w')
+    file.write(args[1])
     file.write('-')
-    file.write(user_passwd)
+    file.write(args[2])
     file.close()
 
 
