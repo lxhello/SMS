@@ -1,7 +1,24 @@
 from student_class import Student
 
 
-def login():
+def save_info(address,user_name,user_passwd):
+    file = open("./{}.txt".format(address),'w')
+    file.write("username is ")
+    file.write(user_name)
+    file.write(";password is ")
+    file.write(user_passwd)
+    file.close()
+
+
+def sign_up():
+    username = input("please enter username to sign:")
+    password = input("please enter password to sign:")
+    confirm = input("are you sure you want to register,y/n:")
+    if confirm == 'y' or confirm == 'Y':
+        save_info("user_info",username,password)
+
+
+def sign_in():
     username = input("please enter username:")
     password = input("please enter password:")
     if username == "123456" and password == "123456":
@@ -72,7 +89,8 @@ def query_student_info(all_student,fuzzy_key_word):
 
 
 def main():
-    flag = login()
+    sign_up()
+    flag = sign_in()
     choice = menu()
     all_student = []
     while flag and choice:
